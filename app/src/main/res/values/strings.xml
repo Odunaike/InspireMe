@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name"><q>InspireMe</q></string>
+    <string name="james_clear_quotes">James Clear Quotes</string>
+    <string name="kanye_west_quotes">Kanye West Quotes</string>
+    <string name="bible_verses">Bible Verses</string>
+    <string name="grinding_quotes">Grinding Quotes</string>
+    <string name="anime_quotes">Anime Quotes</string>
+    <string name="liked_quotes">Go to liked quotes</string>
+    <string name="like_quote">like quote</string>
+    <string name="test_string1">\"It is goo to grind, when the sun shines. So that you don not regret not grinding later\"</string>
+    <string name="test_string2">Any day above ground is a great day</string>
+    <string name="test_string3">You must first touch a heart before you ask for an hand</string>
+    <string name="test_string4">The thing about life is that, the highr you go, the less you see. The reason is that at a particular stages in life, there will be few things you have encountered </string>
+</resources>
