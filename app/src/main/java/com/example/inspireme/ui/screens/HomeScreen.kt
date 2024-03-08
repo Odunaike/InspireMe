@@ -45,10 +45,11 @@ import com.example.inspireme.models.HomeCategoryModel
 @Composable
 fun HomeScreenApp(
     onClickAnime:()->Unit,
-    onClickJames: () -> Unit
+    onClickJames: () -> Unit,
+    onClickToLikes: () -> Unit
 ){
     Scaffold(
-        topBar = {HomeTopAppBar()}
+        topBar = {HomeTopAppBar(onClickToLikes)}
     ) {
         Column(
             modifier = Modifier
@@ -66,7 +67,9 @@ fun HomeScreenApp(
 }
 
 @Composable
-fun HomeTopAppBar(){
+fun HomeTopAppBar(
+    onClickToLikes: () -> Unit
+){
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -82,13 +85,14 @@ fun HomeTopAppBar(){
         )
         Spacer(modifier = Modifier.weight(1f))
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = onClickToLikes,
             ) {
             Image(painter = painterResource(id = R.drawable.love_icon),
                 contentDescription = stringResource(id = R.string.liked_quotes),
                 modifier = Modifier
                     .padding(5.dp)
                     .size(50.dp),
+                    //.clickable(enabled = true, onClick = onClickToLikes),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
             )
         }

@@ -22,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.inspireme.ui.screens.HomeScreenApp
+import com.example.inspireme.ui.screens.LikesScreenApp
 import com.example.inspireme.ui.screens.QuoteCardApp
 import com.example.inspireme.ui.screens.QuotesScreenApp
 import com.example.inspireme.ui.viewmodels.JamesScreenViewModel
@@ -30,7 +31,8 @@ import com.example.inspireme.ui.viewmodels.QuotesScreenViewModel
 enum class QuotesAppScreens() {
     Home,
     Anime,
-    James
+    James,
+    Likes
 }
 
 class MainActivity : ComponentActivity() {
@@ -65,7 +67,8 @@ fun MyNavigation(
             composable(route = QuotesAppScreens.Home.name){
                 HomeScreenApp(
                     onClickAnime = {navController.navigate(QuotesAppScreens.Anime.name)},
-                    onClickJames = {navController.navigate(QuotesAppScreens.James.name)}
+                    onClickJames = {navController.navigate(QuotesAppScreens.James.name)},
+                    onClickToLikes = {navController.navigate(QuotesAppScreens.Likes.name)}
                 )
             }
             composable(route = QuotesAppScreens.Anime.name){
@@ -77,6 +80,9 @@ fun MyNavigation(
                 val viewModel: JamesScreenViewModel = viewModel()
                 val networkState = viewModel.jamesNetworkState
                 QuoteCardApp(jamesNetworkState = networkState, screenName = "James Clear Quotes" )
+            }
+            composable(route = QuotesAppScreens.Likes.name){
+                LikesScreenApp()
             }
         }
     }

@@ -132,6 +132,5 @@ private fun ErrorComposable(){
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun Preview (){
-    InspireMeTheme(useDarkTheme = false) {
-    }
+  QuoteTopAppBar(screenName = "hello")
 }
