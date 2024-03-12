@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace 'com.example.inspireme'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.inspireme"
@@ -46,7 +46,8 @@ android {
         }
     }
 }
-
+//used so that android can find our databse impl
+apply plugin: 'kotlin-kapt'
 dependencies {
 
     // Coil
@@ -59,6 +60,13 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
 
+    //Room
+    def room_version = "2.6.1"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
 
 
     //for navigation stuffs

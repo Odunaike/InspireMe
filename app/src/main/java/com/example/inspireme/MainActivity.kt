@@ -14,6 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -21,11 +23,15 @@ import com.example.compose.InspireMeTheme
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.inspireme.data.roomDB.LikedQuotesDatabase
+import com.example.inspireme.data.roomDB.LikedQuotesRepository
+
 import com.example.inspireme.ui.screens.HomeScreenApp
 import com.example.inspireme.ui.screens.LikesScreenApp
 import com.example.inspireme.ui.screens.QuoteCardApp
 import com.example.inspireme.ui.screens.QuotesScreenApp
 import com.example.inspireme.ui.viewmodels.JamesScreenViewModel
+import com.example.inspireme.ui.viewmodels.LikedQuotesScreenViewModel
 import com.example.inspireme.ui.viewmodels.QuotesScreenViewModel
 
 enum class QuotesAppScreens() {
@@ -53,10 +59,12 @@ class MainActivity : ComponentActivity() {
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyNavigation(
     navController: NavHostController = rememberNavController()
 ){
+
     Scaffold() {
         NavHost(
             navController = navController,
@@ -77,12 +85,13 @@ fun MyNavigation(
                 QuotesScreenApp(networkState, "${QuotesAppScreens.Anime.name} Quotes")
             }
             composable(route = QuotesAppScreens.James.name){
-                val viewModel: JamesScreenViewModel = viewModel()
+                val viewModel: JamesScreenViewModel = viewModel(factory = JamesScreenViewModel.factory)
                 val networkState = viewModel.jamesNetworkState
-                QuoteCardApp(jamesNetworkState = networkState, screenName = "James Clear Quotes" )
+                QuoteCardApp(jamesNetworkState = networkState, screenName = "James Clear Quotes" , viewModel = viewModel)
             }
             composable(route = QuotesAppScreens.Likes.name){
-                LikesScreenApp()
+                val viewModel: LikedQuotesScreenViewModel= viewModel(factory = LikedQuotesScreenViewModel.factory)
+                LikesScreenApp(viewModel = viewModel)
             }
         }
     }

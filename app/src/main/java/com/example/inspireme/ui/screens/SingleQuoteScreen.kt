@@ -2,6 +2,7 @@ package com.example.inspireme.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -31,17 +33,20 @@ import com.example.compose.InspireMeTheme
 import com.example.inspireme.R
 import com.example.inspireme.models.JamesQuoteModel
 import com.example.inspireme.ui.viewmodels.JamesNetworkState
+import com.example.inspireme.ui.viewmodels.JamesScreenViewModel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuoteCardApp(jamesNetworkState: JamesNetworkState, screenName: String){
+fun QuoteCardApp(jamesNetworkState: JamesNetworkState, screenName: String, viewModel: JamesScreenViewModel){
     Scaffold(
         topBar = {QuoteTopAppBar(screenName = screenName)},
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
     ) {
         when (jamesNetworkState){
-            is JamesNetworkState.Success -> QuoteCard(quote = jamesNetworkState.quote)
+            is JamesNetworkState.Success -> QuoteCard(quote = jamesNetworkState.quote, viewModel = viewModel)
             is JamesNetworkState.Loading ->     LoadingComposable()
             is JamesNetworkState.Error -> ErrorComposable()
         }
@@ -67,7 +72,8 @@ private fun QuoteTopAppBar(screenName: String){
 }
 
 @Composable
-fun QuoteCard(quote: JamesQuoteModel){
+fun QuoteCard(quote: JamesQuoteModel, viewModel: JamesScreenViewModel){
+    val coroutineScope = rememberCoroutineScope()
     Card(
         modifier = Modifier
             .fillMaxSize()
@@ -93,7 +99,12 @@ fun QuoteCard(quote: JamesQuoteModel){
                 modifier = Modifier
                     .padding(top = 40.dp)
                     .size(30.dp)
-                    .shadow(elevation = 3.dp, shape = CircleShape),
+                    .shadow(elevation = 3.dp, shape = CircleShape)
+                    .clickable(enabled = true, onClick = {       //added the function to add a quote to db
+                        coroutineScope.launch {
+                            viewModel.likeQuote(quote.text)
+                        }
+                    }),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
             )
         }
