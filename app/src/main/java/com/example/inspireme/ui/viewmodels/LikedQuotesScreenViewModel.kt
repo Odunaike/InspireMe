@@ -29,5 +29,9 @@ class LikedQuotesScreenViewModel(private val likedQuotesDao: QuoteDao): ViewMode
             }
         }
     }
+
+    suspend fun deleteQuote(quoteItem: QuoteItem){
+        likedQuotesDao.delete(quoteItem)
+    }
 }
 data class LikedUiState(val likedQuotes: List<QuoteItem> = listOf())
